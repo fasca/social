@@ -6,7 +6,9 @@ A simple social network.
 Installation
 ------------
 
-Will need PHP5 to run.
+Will need NodeJs to run.
+Will use ExpressJs Framework (Server-Side)
+
 Clone the repo :
 
 ~~~sh
@@ -18,11 +20,14 @@ TO DO
 
 #### Database
 
-- Create a MySQL database Online
+- Create a MySQL database Online : http://www.cleardb.com/
 - Create Table for : Users
 - Create Table for : Walls Entries
 - Create Table for : Photo Galleries
-- Create Table for : 
+
+#### Data
+
+Where to store data like Images & Pics from Users ?
 
 #### Create Basic Functions
 
@@ -32,6 +37,8 @@ TO DO
 - Delete User
 - Update User Info
 - Add Image as Profile Picture
+- Add Message on a Wall
+- Delete Message on a Wall
 
 #### Create User Interface
 
