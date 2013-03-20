@@ -15,6 +15,13 @@ Clone the repo :
 git clone https://github.com/fasca/social
 ~~~
 
+Run the server :
+~~~sh
+node app
+~~~
+
+The website will run at localhost:3000
+
 TO DO
 -----
 
@@ -28,6 +35,7 @@ TO DO
 #### Data
 
 Where to store data like Images & Pics from Users ?
+- Create a Windows Azure Blob Storage to store all User Files
 
 #### Create Basic Functions
 
