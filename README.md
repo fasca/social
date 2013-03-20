@@ -15,6 +15,11 @@ Clone the repo :
 git clone https://github.com/fasca/social
 ~~~
 
+Install the dependencies :
+~~~sh
+npm install
+~~~
+
 Run the server :
 ~~~sh
 node app
