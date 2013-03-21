@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .page-header
+    h1 Sign In to Social.
+
+  form.form-signin
+    h2.form-signin-heading Please identify yourself.
+    input.input-block-level(type="text", placeholder="Email adress")
+    input.input-block-level(type="text", placeholder="Password")
+    label.checkbox
+      input(type="checkbox", value="Remember Me")
+      | Remember Me
+    button.btn.btn-large.btn-primary(type="submit") Sign In

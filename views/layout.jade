@@ -2,6 +2,30 @@ doctype 5
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    //- jQuery
+    script(src='javascripts/jquery-1.9.0.min.js')
+    //- Bootstrap styles
+    link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css', media="screen")
+    link(rel='stylesheet', href='bootstrap/css/bootstrap.responsive.min.css', media="screen")
+
+    link(rel='stylesheet', href='stylesheets/style.css')
   body
-    block content
+
+    .container
+      .navbar.navbar-inverse
+        .navbar-inner
+          a.brand(href="/")
+            i.icon-th.icon-white
+            |  Social
+
+          ul.nav
+            li: a(href="signin") Sign In
+
+          form.navbar-search.pull-right
+            input.search-query(type="text", placeholder="Search")
+
+      block content
+
+    //- Bootstrap code
+    script(src='bootstrap/js/bootstrap.min.js')

@@ -27,8 +27,25 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+
+// Url Redirections
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+/* You can add Url Redirections without including JS file, directly by specifying it in the callback */
+// SignUp Page
+app.get('/signup', function(req, res)
+  {
+    res.render('signup', { title: 'SignUp. Social' });
+  });
+// Sign In Page
+app.get('/signin', function(req, res)
+  {
+    res.render('signin', { title: 'SignIn. Social' });
+  });
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
