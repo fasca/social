@@ -44,7 +44,11 @@ app.get('/signin', function(req, res)
   {
     res.render('signin', { title: 'SignIn. Social' });
   });
-
+// Forgot password Page
+app.get('/forgotPwd', function(req,res)
+  {
+    res.render('forgotPwd', { title: 'Forgot your Password?'});
+  });
 
 
 http.createServer(app).listen(app.get('port'), function(){

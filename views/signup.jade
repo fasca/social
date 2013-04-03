@@ -4,4 +4,76 @@ block content
   .page-header
     h1 Sign Up to Social. 
       small Free & Simple Social Network
-  p In a few seconds, you'll be able to share with people.
+  h4 In a few seconds, you'll be able to share with people.
+  .row
+    .span6
+      from
+        .control-group
+          label.control-label(for='inputFirstName') First Name:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-user
+              input.span5#inputFirstName(type='text', placeholder='First Name')
+
+        .control-group
+          label.control-label(for='inputLastName') Last Name:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-user
+              input.span5#inputLastNames(type='text', placeholder='Last Name')
+
+        .control-group
+          label.control-label(for='inputEmail') Your Email:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-envelope
+              input.span5#inputEmail(type='email', placeholder='Email')
+
+        .control-group
+          label.control-label(for='inputReEmail') Re-enter Email:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-envelope
+              input.span5#inputReEmail(type='email', placeholder='Email')
+
+        .control-group
+          label.control-label(for='inputPassword') New Password:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-lock
+              input.span5#inputPassword(type='password', placeholder='Password')
+
+        .control-group
+          label.control-label(for='inputRePassword') Re-enter Password:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-lock
+              input.span5#inputRePassword(type='password', placeholder='Password')
+
+        .control-group
+          label.control-label(for='inputSex') I am:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-leaf
+                select.span5#inputSex
+                  optgroup(label='select sex:')
+                    option(value='Female') Female
+                    option(value='Male') Male
+
+        .control-group
+          label.control-label(for='inputCalendar') Birthday:
+          .controls
+            .input-prepend
+              span.add-on
+                i.icon-calendar
+              input.span5#inputCalendar(type='date')
+    .span6
+      button.btn.btn-large.btn-block.btn-success(type='submit') Sign up
+      button.btn.btn-large.btn-block.btn-danger(type='reset') Reset
