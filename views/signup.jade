@@ -4,7 +4,7 @@ block content
   .page-header
     h1 Sign Up to Social. 
       small Free & Simple Social Network
-  h4 In a few seconds, you'll be able to share with people.
+  .lead In a few seconds, you'll be able to share with people.
   .row
     .span6
       from
@@ -68,12 +68,16 @@ block content
                     option(value='Male') Male
 
         .control-group
-          label.control-label(for='inputCalendar') Birthday:
+          label.control-label(for='inputCalendar', placeholder='DD/MM/YYYY') Birthday:
           .controls
             .input-prepend
               span.add-on
                 i.icon-calendar
               input.span5#inputCalendar(type='date')
     .span6
-      button.btn.btn-large.btn-block.btn-success(type='submit') Sign up
-      button.btn.btn-large.btn-block.btn-danger(type='reset') Reset
+      button.btn.btn-large.btn-block.btn-success(type='submit')
+        i.icon-ok-circle.icon-white  
+        | &nbsp;Sign up
+      button.btn.btn-large.btn-block.btn-danger(type='reset')
+        i.icon-remove-circle.icon-white  
+        | &nbsp;Reset

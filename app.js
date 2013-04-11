@@ -45,9 +45,34 @@ app.get('/signin', function(req, res)
     res.render('signin', { title: 'SignIn. Social' });
   });
 // Forgot password Page
-app.get('/forgotPwd', function(req,res)
+app.get('/forgotPwd', function(req, res)
   {
     res.render('forgotPwd', { title: 'Forgot your Password?'});
+  });
+// Profil Page
+app.get('/profil', function(req, res)
+  {
+    res.render('profil', {title: 'My Profil.'});
+  });
+// News Page
+app.get('/news', function(req, res)
+  {
+    res.render('news', {title: 'The News.'});
+  });
+// Messages Page
+app.get('/messages', function(req, res)
+  {
+    res.render('messages', {title: 'My Messages.'});
+  });
+// Notifications Page
+app.get('/notifications', function(req, res)
+  {
+    res.render('notifications', {title: 'My Notifications.'});
+  });
+// Settings Page
+app.get('/settings', function(req, res)
+  {
+    res.render('settings', {title: 'Account Settings.'});
   });
 
 
