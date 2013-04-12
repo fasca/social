@@ -11,7 +11,6 @@ Tables Structures
 - Password
 - Birth Date
 - Join Date
------------------
 - Conversations Array (JSON String with all the IDs of Conversations the User is involved)
 - WallMessages Array (JSON String with all the IDs of Wall Messages the User has received)
 
@@ -27,7 +26,6 @@ Tables Structures
 #### PrivateConversations Table
 - Id 
 - Creation Date
------------------
 - Users Array (JSON String with all the IDs of the Users involved in the conversation)
 - Messages Array (JSON String with all the IDs of Messages )
 
@@ -46,7 +44,6 @@ Tables Structures
 - Date & Time
 - Name
 - Legend
------------------
 - Pictures Array (JSON String with all Pictures IDs)
 
 
