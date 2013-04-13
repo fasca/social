@@ -1,32 +1,32 @@
-Tables Structures
+ aTables Structures
 =================
 
 
 #### Users Table
 - Id
-- First Name
-- Last Name
+- FirstName
+- LastName
 - Nickname
 - Email
 - Password
-- Birth Date
-- Join Date
-- Conversations Array (JSON String with all the IDs of Conversations the User is involved)
-- WallMessages Array (JSON String with all the IDs of Wall Messages the User has received)
+- BirthDate
+- JoinDate
+- ConversationsArrayId (JSON String with all the IDs of Conversations the User is involved)
+- WallMessagesArrayId (JSON String with all the IDs of Wall Messages the User has received)
 
 
 #### WallMessages Table
 - Id
-- Sender (Link to Users.Id)
-- To (Link to Users.Id)
-- Date & Time
+- SenderId (Link to Users.Id)
+- ToId (Link to Users.Id)
+- DateTime
 - MessageContent
 
 
 #### PrivateConversations Table
 - Id 
-- Creation Date
-- Users Array (JSON String with all the IDs of the Users involved in the conversation)
+- CreationDate
+- UsersArrayId (JSON String with all the IDs of the Users involved in the conversation)
 - Messages Array (JSON String with all the IDs of Messages )
 
 
