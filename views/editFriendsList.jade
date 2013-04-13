@@ -1,0 +1,19 @@
+extends layout2
+
+block content
+  section
+    .page-header
+      h1 the friends editor list.
+    .row
+      .span2
+        ul.nav.nav-tabs.nav-stacked
+          li: a(href='Settings') Edit profile
+          li: a(href='delete') Delete profile
+          li.active: a(href='editFriendsList') Edit friends list
+      .span2
+      .span4
+        form.form-action.text-center
+
+          button.btn.btn-large.btn-danger(type="submit") Delete
+      .span1
+          button.btn.btn-large.btn(href="settings") Cancel

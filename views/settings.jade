@@ -1,3 +1,96 @@
 extends layout2
 
 block content
+  section
+    .page-header
+      h1 General Account Settings. 
+        small Privacy Settings and Tools
+    .row
+      .span2
+        ul.nav.nav-tabs.nav-stacked
+          li.active: a(href='Settings') Edit profile
+          li: a(href='delete') Delete profile
+          li: a(href='editFriendsList') Edit friends list
+      .span2
+      .span4
+        from
+          .control-group
+            label.control-label(for='inputFirstName') First Name:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-user
+                input.span4#inputFirstName(type='text', placeholder='First Name')
+
+          .control-group
+            label.control-label(for='inputLastName') Last Name:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-user
+                input.span4#inputLastNames(type='text', placeholder='Last Name')
+
+          .control-group
+            label.control-label(for='inputUserName') Username:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-user
+                input.span4#inputUsernames(type='text', placeholder='Username')
+
+          .control-group
+            label.control-label(for='inputEmail') Your Email:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-envelope
+                input.span4#inputEmail(type='email', placeholder='Email')
+
+          .control-group
+            label.control-label(for='inputReEmail') Re-enter Email:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-envelope
+                input.span4#inputReEmail(type='email', placeholder='Email')
+
+          .control-group
+            label.control-label(for='inputPassword') New Password:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-lock
+                input.span4#inputPassword(type='password', placeholder='Password')
+
+          .control-group
+            label.control-label(for='inputRePassword') Re-enter Password:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-lock
+                input.span4#inputRePassword(type='password', placeholder='Password')
+
+          .control-group
+            label.control-label(for='inputSex') I am:
+              .controls
+                .input-prepend
+                  span.add-on
+                    i.icon-leaf
+                  select.span4#inputSex
+                    optgroup(label='select sex:')
+                      option(value='Female') Female
+                      option(value='Male') Male
+
+          .control-group
+            label.control-label(for='inputCalendar', placeholder='DD/MM/YYYY') Birthday:
+            .controls
+              .input-prepend
+                span.add-on
+                  i.icon-calendar
+                input.span4#inputCalendar(type='date')
+
+    section
+      .span4
+      .span4
+        button.btn.btn-large.btn-block.btn-warning(type='submit') Save
+        button.btn.btn-large.btn-block.btn(type='reset') Cancel

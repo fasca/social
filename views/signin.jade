@@ -1,30 +1,31 @@
 extends layout
 
 block content
-  .page-header
-    h1 Sign In to Social.
+  section
+    .page-header
+      h1 Sign In to Social.
 
-  form.form-signin
-    h2.form-signin-heading Please identify yourself.
-    input.input-block-level(type="email", placeholder="Email adress")
-    input.input-block-level(type="password", placeholder="Password")
-    .row
-      .span9
-        label.checkbox
-          input(type="checkbox", value="Remember Me")
-          | Remember Me
-      .span3
-        a(href="forgotPwd") Forgot your password?
-    p
-    button.btn.btn-large.btn-primary(type="submit") Sign In
-    //- dev & test:
-    P
-    a(href="profil") ( test: -- My Profil -- )
-    P
-    a(href="news") ( test: -- News -- )
-    P
-    a(href="messages") ( test: -- Messages -- )
-    P
-    a(href="notifications") ( test: -- Notifications -- )
-    P
-    a(href="settings") ( test: -- Settings -- )
+    form.form-signin
+      h2.form-signin-heading Please identify yourself.
+      input.input-block-level(type="email", placeholder="Email adress")
+      input.input-block-level(type="password", placeholder="Password")
+      .row
+        .span9
+          label.checkbox
+            input(type="checkbox", value="Remember Me")
+            | Remember Me
+        .span3
+          a(href="forgotPwd") Forgot your password?
+      p
+      button.btn.btn-large.btn-primary(type="submit") Sign In
+      //- dev & test:
+      P
+      a(href="profil") ( test: -- My Profil -- )
+      P
+      a(href="news") ( test: -- News -- )
+      P
+      a(href="messages") ( test: -- Messages -- )
+      P
+      a(href="notifications") ( test: -- Notifications -- )
+      P
+      a(href="settings") ( test: -- Settings -- )

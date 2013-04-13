@@ -74,7 +74,16 @@ app.get('/settings', function(req, res)
   {
     res.render('settings', {title: 'Account Settings.'});
   });
-
+// Delete Page
+app.get('/delete', function(req, res)
+  {
+    res.render('delete', {title: 'Delete page.'});
+  });
+// Edit friends list Page
+app.get('/editFriendsList', function(req, res)
+  {
+    res.render('editFriendsList', {title: 'Edit friends list page.'});
+  });
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

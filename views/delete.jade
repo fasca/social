@@ -1,0 +1,20 @@
+extends layout2
+
+block content
+  section
+    .page-header
+      h1 Do you want to delete your account?
+    .row
+      .span2
+        ul.nav.nav-tabs.nav-stacked
+          li: a(href='Settings') Edit profile
+          li.active: a(href='delete') Delete profile
+          li: a(href='editFriendsList') Edit friends list
+      .span2
+      .span4
+        form.form-action.text-center
+          h2.form-action-heading Are you sure?
+            .input-prepend
+          button.btn.btn-large.btn-danger(type="submit") Delete
+          p
+          button.btn.btn-large.btn-info(href="settings") Cancel
