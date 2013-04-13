@@ -1,12 +1,15 @@
- aTables Structures
+Tables Structures
 =================
 
 
-#### Users Table
+User & Profile
+--------------
+
+#### Users
 - Id
 - FirstName
 - LastName
-- Nickname
+- UserName
 - Email
 - Password
 - BirthDate
@@ -15,46 +18,73 @@
 - WallMessagesArrayId (JSON String with all the IDs of Wall Messages the User has received)
 
 
-#### WallMessages Table
+#### WallMessages
 - Id
-- SenderId (Link to Users.Id)
-- ToId (Link to Users.Id)
+- From (Link to Users.Id)
+- To (Link to Users.Id)
 - DateTime
 - MessageContent
+- Likes Array (JSON String with all Users ID)
 
 
-#### PrivateConversations Table
+Conversations
+-------------
+
+#### PrivateConversations
 - Id 
 - CreationDate
+- FirstMessage
+- LastMessage
 - UsersArrayId (JSON String with all the IDs of the Users involved in the conversation)
-- Messages Array (JSON String with all the IDs of Messages )
 
 
-#### PrivateMessages Table
+#### PrivateMessages
 - Id
-- Conversation Id
+- Conversation
 - Author
 - Date & Time
+- PreviousMessage
+- NextMessage
 - MessageContent
 
+
+Photos
+------
 
 #### Galleries
 - Id
 - Author
 - Date & Time
+- FirstPicture
+- LastPicture
 - Name
 - Legend
 - Pictures Array (JSON String with all Pictures IDs)
+- Likes Array (JSON String with all Users ID)
 
 
 #### Pictures
 - Id
-- Gallery Id
+- Gallery
 - Author
+- PreviousPicture
+- NextPicture
 - Date & Time
 - Legend
+- Likes Array (JSON String with all Users ID)
 
+
+#### ! Comments 
+- Id
+- Author
+- ParentObject
+- ParentType
+- Comment
+- Likes Array (JSON String with all Users ID)
 
 
 
 #### ! Think to a Garbage Collector (Non-linked resources to delete)
+#### ! IP adresses & Geolocation
+Conversations
+------------

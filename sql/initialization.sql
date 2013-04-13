@@ -1,5 +1,6 @@
 USE social;
 
-CREATE DATABASE users;
+CREATE TABLE users;
 
+-- IF NOT EXISTS !!!
 -- There is a lot to do here !
