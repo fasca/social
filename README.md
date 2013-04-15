@@ -15,11 +15,6 @@ Clone the repo :
 git clone https://github.com/fasca/social
 ~~~
 
-Install the dependencies :
-~~~sh
-npm install
-~~~
-
 Run the server :
 ~~~sh
 node app
@@ -27,12 +22,20 @@ node app
 
 The website will run at localhost:3000
 
+
+DONE
+----
+
+#### Database
+
+14/04 : Created a MySQL database on Raspberry Pi
+
+
 TO DO
 -----
 
 #### Database
 
-- Create a MySQL database Online : http://www.cleardb.com/
 - Create Table for : Users
 - Create Table for : Walls Entries
 - Create Table for : Photo Galleries
@@ -40,7 +43,7 @@ TO DO
 #### Data
 
 Where to store data like Images & Pics from Users ?
-- Create a Windows Azure Blob Storage to store all User Files
+- Use MySQL Blob System
 
 #### Create Basic Functions
 
