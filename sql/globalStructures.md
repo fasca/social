@@ -14,8 +14,12 @@ User & Profile
 - Password
 - BirthDate
 - JoinDate
-- ConversationsArrayId (JSON String with all the IDs of Conversations the User is involved)
-- WallMessagesArrayId (JSON String with all the IDs of Wall Messages the User has received)
+
+
+#### UsersIP
+- Id
+- Ip
+- User
 
 
 #### WallMessages
@@ -23,26 +27,31 @@ User & Profile
 - From (Link to Users.Id)
 - To (Link to Users.Id)
 - DateTime
+- Ip
 - MessageContent
-- Likes Array (JSON String with all Users ID)
 
 
 Conversations
 -------------
 
+#### InvolvedConversations
+- User
+- Conversation
+
+
 #### PrivateConversations
-- Id 
+- Id
 - CreationDate
 - FirstMessage
 - LastMessage
-- UsersArrayId (JSON String with all the IDs of the Users involved in the conversation)
 
 
 #### PrivateMessages
 - Id
 - Conversation
 - Author
-- Date & Time
+- DateTime
+- Ip
 - PreviousMessage
 - NextMessage
 - MessageContent
@@ -54,37 +63,41 @@ Photos
 #### Galleries
 - Id
 - Author
-- Date & Time
+- DateTime
+- Ip
 - FirstPicture
 - LastPicture
 - Name
 - Legend
-- Pictures Array (JSON String with all Pictures IDs)
-- Likes Array (JSON String with all Users ID)
 
 
 #### Pictures
 - Id
 - Gallery
 - Author
+- Ip
 - PreviousPicture
 - NextPicture
 - Date & Time
 - Legend
-- Likes Array (JSON String with all Users ID)
 
 
-#### ! Comments 
+#### Comments :: Think about a way to do it.
+#### Comments could be on a WallMessage, a Picture, or a Gallery.
 - Id
 - Author
-- ParentObject
-- ParentType
+- DateTime
+- Ip
+- ParentType (0: WallMessage, 1: Photo, 2: Gallery, 3: Comment)
+- ParentId
 - Comment
-- Likes Array (JSON String with all Users ID)
 
 
+#### Likes :: Think about a way to do it.
+#### Likes could be on a WallMessage, a Picture, a Gallery, or a comment.
+- Author
+- ParentType (0: WallMessage, 1: Photo, 2: Gallery, 3: Comment)
+- ParentId
 
-#### ! Think to a Garbage Collector (Non-linked resources to delete)
-#### ! IP adresses & Geolocation
-Conversations
-------------
+
+#### ! Geolocation
