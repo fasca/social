@@ -11,6 +11,9 @@ var express = require('express')
 
 var app = express();
 
+// For DB
+var data = require('./routes/social-db.js');
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -88,3 +91,29 @@ app.get('/editFriendsList', function(req, res)
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+
+
+/// Routes
+function dataCallback(res) {
+    return function(err, data) {
+        if (err) {
+            res.send({error : err});
+        } else {
+      // Il serait intéressant de fournir une réponse plus lisible en
+      // cas de mise à jour ou d'insertion...
+            res.send(data);
+            console.log("modification DB");
+            alert("modification DB");
+        }
+    }
+}
+
+// Ajout via POST
+app.post('/profil', function(req, res) {
+    data.insertUser(req.body, dataCallback(res));
+});
+
+
+
+
