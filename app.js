@@ -4,21 +4,29 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , mysql = require('mysql')
+  , fs = require('node-fs');
 
+
+// Social Project Libraries
+var socialLib = require("./social.io/socialLib.js");
+
+// Express Server object
 var app = express();
 
-// for DB
-var mysql = require('mysql');
-var fs = require('node-fs');
-var config = JSON.parse(fs.readFileSync('./mysql-config.json'));
-var client = new mysql.createConnection(config); 
-client.connect();
 
-// Pour pouvoir récupérer les variables POST après
-app.use(express.bodyParser()); 
+// MySQL Connection Initiliazation
+var config = JSON.parse(fs.readFileSync('./sql/mysql-config.json'));
+var client = new mysql.createConnection(config); 
+
+
+// Social Instance
+var social = new socialLib (client);
+
+
+
 
 
 app.configure(function(){
@@ -39,9 +47,10 @@ app.configure('development', function(){
 
 
 
+
 // Url Redirections
 app.get('/', routes.index);
-app.get('/users', user.list);
+
 
 /* You can add Url Redirections without including JS file, directly by specifying it in the callback */
 // SignUp Page
@@ -101,39 +110,20 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 
-//DB
 
-function insertUser(hash){
-  client.query('INSERT INTO users (id,firstName,lastName,userName,email,password,sex,birthDate,joinDate)VALUES (0,"'+hash.body.firstname+'","'+hash.body.lastname+'","'+hash.body.username+'","'+hash.body.email1+'","'+hash.body.password1+'","'+hash.body.sex+'","'+hash.body.date+'",CURDATE())', function(err, result) {
-  if (err) throw err;
-});
-}
 
-function ifUsernameNotExist(hash){
-  client.query('SELECT userName FROM users', function(err, res) {
-    if (err) throw err;
-    var bool=true;
-    
-    for (var i in res) {
-      if(res[i].userName == hash)
-        bool=false;
-    }
-    
-    return bool;
-  });
-}
 
 
 // Ajout via POST
-app.post('/', function(req, res) {
+app.post('/ajax/createuser', function(req, res)
+{
     
-    console.log(ifUsernameNotExist(req.body.username));
-
     if( req.body.email1 == req.body.email2 && req.body.password1 == req.body.password2
       && req.body.firstname != '' && req.body.lastname != '' && req.body.username != ''
       && req.body.email1 != '' && req.body.password1 != '' && req.body.sex != '' && req.body.date != '')
     {
-      insertUser(req);
+      socialLib.users.insertUser(req);
+      // TODO : Admit that we could have error Here ! Handle ERRORS.
       res.render('signin', { title: 'SignIn. Social' });
     }
     else
