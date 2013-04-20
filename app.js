@@ -101,19 +101,35 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 
-function insertUser(hash){
-  client.query('INSERT INTO users (id,firstName,lastName,userName,email,password,sex,birthDate,joinDate) VALUES (0,"'+hash.body.firstname+'","'+hash.body.lastname+'","'+hash.body.username+'","'+hash.body.email1+'","'+hash.body.password1+'","'+hash.body.sex+'","'+hash.body.date+'",CURDATE())', function(err, result) {
-  if (err) throw err;
+//DB
 
-  console.log(hash.body);
+function insertUser(hash){
+  client.query('INSERT INTO users (id,firstName,lastName,userName,email,password,sex,birthDate,joinDate)VALUES (0,"'+hash.body.firstname+'","'+hash.body.lastname+'","'+hash.body.username+'","'+hash.body.email1+'","'+hash.body.password1+'","'+hash.body.sex+'","'+hash.body.date+'",CURDATE())', function(err, result) {
+  if (err) throw err;
 });
 }
 
+function ifUsernameNotExist(hash){
+  client.query('SELECT userName FROM users', function(err, res) {
+    if (err) throw err;
+    var bool=true;
+    
+    for (var i in res) {
+      if(res[i].userName == hash)
+        bool=false;
+    }
+    
+    return bool;
+  });
+}
+
+
 // Ajout via POST
 app.post('/', function(req, res) {
-    //data.insertUser(req.body, dataCallback(res));
-    console.log(req.body.firstname);// test C to S
-    if(req.body.email1 == req.body.email2 && req.body.password1 == req.body.password2
+    
+    console.log(ifUsernameNotExist(req.body.username));
+
+    if( req.body.email1 == req.body.email2 && req.body.password1 == req.body.password2
       && req.body.firstname != '' && req.body.lastname != '' && req.body.username != ''
       && req.body.email1 != '' && req.body.password1 != '' && req.body.sex != '' && req.body.date != '')
     {
@@ -128,5 +144,5 @@ app.post('/', function(req, res) {
 
 
 
-
-
+//fait buger
+//client.end();
