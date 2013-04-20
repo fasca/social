@@ -5,7 +5,8 @@ CREATE TABLE `users` (
   `userName` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `birthDate` datetime NOT NULL,
-  `joinDate` datetime NOT NULL,
+  `sex` varchar(20) NOT NULL,
+  `birthDate` date NOT NULL,
+  `joinDate` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

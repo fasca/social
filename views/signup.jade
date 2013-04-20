@@ -6,16 +6,17 @@ block content
       h1 Sign Up to Social. 
         small Free & Simple Social Network
     .lead In a few seconds, you'll be able to share with people.
-    .row
-      .span6
-        form(action="profil", method="post", name="")
+    form(action="/", method="post", name="")
+      .row
+        .span6
+        
           .control-group
             label.control-label(for='inputFirstName') First Name:
             .controls
               .input-prepend
                 span.add-on
                   i.icon-user
-                input.span5#inputFirstName(type='text', placeholder='First Name')
+                input.span5#inputFirstName(type='text', placeholder='First Name', name="firstname")
 
           .control-group
             label.control-label(for='inputLastName') Last Name:
@@ -23,7 +24,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-user
-                input.span5#inputLastNames(type='text', placeholder='Last Name')
+                input.span5#inputLastNames(type='text', placeholder='Last Name', name="lastname")
 
           .control-group
             label.control-label(for='inputUsername') Username:
@@ -31,7 +32,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-user
-                input.span5#inputUsernames(type='text', placeholder='Username')
+                input.span5#inputUsernames(type='text', placeholder='Username', name="username")
 
           .control-group
             label.control-label(for='inputEmail') Your Email:
@@ -39,7 +40,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-envelope
-                input.span5#inputEmail(type='email', placeholder='Email')
+                input.span5#inputEmail(type='email', placeholder='Email', name="email1")
 
           .control-group
             label.control-label(for='inputReEmail') Re-enter Email:
@@ -47,7 +48,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-envelope
-                input.span5#inputReEmail(type='email', placeholder='Email')
+                input.span5#inputReEmail(type='email', placeholder='Email', name="email2")
 
           .control-group
             label.control-label(for='inputPassword') New Password:
@@ -55,7 +56,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-lock
-                input.span5#inputPassword(type='password', placeholder='Password')
+                input.span5#inputPassword(type='password', placeholder='Password', name="password1")
 
           .control-group
             label.control-label(for='inputRePassword') Re-enter Password:
@@ -63,7 +64,7 @@ block content
               .input-prepend
                 span.add-on
                   i.icon-lock
-                input.span5#inputRePassword(type='password', placeholder='Password')
+                input.span5#inputRePassword(type='password', placeholder='Password', name="password2")
 
           .control-group
             label.control-label(for='inputSex') I am:
@@ -71,22 +72,61 @@ block content
                 .input-prepend
                   span.add-on
                     i.icon-leaf
-                  select.span5#inputSex
+                  select.span5#inputSex(name="sex")
                     optgroup(label='select sex:')
                       option(value='Female') Female
                       option(value='Male') Male
 
-        .control-group
-          label.control-label(for='inputCalendar', placeholder='DD/MM/YYYY') Birthday:
-          .controls
-            .input-prepend
-              span.add-on
-                i.icon-calendar
-              input.span5#inputCalendar(type='date')
-      .span6
-        button.btn.btn-large.btn-block.btn-success(type='submit')
-          i.icon-ok-circle.icon-white  
-          | &nbsp;Sign up
-        button.btn.btn-large.btn-block.btn-danger(type='reset')
-          i.icon-remove-circle.icon-white  
-          | &nbsp;Reset
+          .control-group
+            label.control-label(for='inputCalendar', placeholder='DD/MM/YYYY') Birthday:
+              .controls
+                .input-prepend
+                  span.add-on
+                    i.icon-calendar
+                  input.span5#inputCalendar(type='date', name="date")
+        script
+          $(function()
+          {
+            $("#envoyer").click(function()
+            {
+              var mail=$('#inputEmail').val();
+              var mail2=$('#inputReEmail').val();
+              if(mail !== mail2)
+              {     
+                alert("les deux adresses mail ne sont pas identiques");
+              }
+            });
+          });
+        script  
+          $(function()
+          {
+            $("#envoyer").click(function()
+            {
+              var pwd1=$('#password1').val();
+              var pwd2=$('#password2').val();
+              if(pwd1 !== pwd2)
+              {
+                alert("les deux password ne sont pas identiques");
+              }
+            });
+          });
+        script
+          $(function()
+          {
+            $("#reset").click(function()
+            {
+              $(':input','#id-formulaire')
+              .not(':button, :submit, :reset, :hidden')
+              .val('')
+              .removeAttr('checked')
+              .removeAttr('selected');
+            });
+          });
+
+        .span6
+          button.btn.btn-large.btn-block.btn-success#envoyer(type='submit')
+            i.icon-ok-circle.icon-white  
+            | &nbsp;Sign up
+          button.btn.btn-large.btn-block.btn-danger#reset(type='reset')
+            i.icon-remove-circle.icon-white  
+            | &nbsp;Reset

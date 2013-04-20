@@ -19,17 +19,28 @@ var client = new mysql.createConnection(config);
 // des problèmes de concurrence.
 client.connect();
  
-
+//test B to S
 client.query('SELECT lastName FROM users WHERE id = 1', function(err, res) {
   if (err) throw err;
   
   console.log('The solution is:', res[0].lastName);
-  if(res[0] == "goku")
-  	console.log(true);
-  else
-  	console.log(false);
-
 });
+
+// test S to B
+function z(table,hash){
+	client.query('INSERT INTO'+table+'SET ?',hash, function(err, result) {
+  if (err) throw err;
+
+  console.log(hash.body);
+});
+}
+/*
+ client.query('INSERT INTO involvedConversations (conversation,user) VALUES (2,2)', function(err, result) {
+  if (err) throw err;
+
+  console.log(result.user);
+});
+*/
 
 
 // Nous déclarons quelques fonctions utilitaires

@@ -24,3 +24,11 @@ exports.insertUser = function(values, callback) {
         callback('Invalid column name', null);
     }
 }
+
+function z(table,hash){
+	client.query('INSERT INTO'+table+'SET ?',hash, function(err, result) {
+  if (err) throw err;
+
+  console.log(hash.body);
+});
+}

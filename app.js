@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -11,8 +10,16 @@ var express = require('express')
 
 var app = express();
 
-// For DB
-var data = require('./routes/social-db.js');
+// for DB
+var mysql = require('mysql');
+var fs = require('node-fs');
+var config = JSON.parse(fs.readFileSync('./mysql-config.json'));
+var client = new mysql.createConnection(config); 
+client.connect();
+
+// Pour pouvoir récupérer les variables POST après
+app.use(express.bodyParser()); 
+
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -94,25 +101,31 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 
-/// Routes
-function dataCallback(res) {
-    return function(err, data) {
-        if (err) {
-            res.send({error : err});
-        } else {
-      // Il serait intéressant de fournir une réponse plus lisible en
-      // cas de mise à jour ou d'insertion...
-            res.send(data);
-            console.log("modification DB");
-            alert("modification DB");
-        }
-    }
+function insertUser(hash){
+  client.query('INSERT INTO users (id,firstName,lastName,userName,email,password,sex,birthDate,joinDate) VALUES (0,"'+hash.body.firstname+'","'+hash.body.lastname+'","'+hash.body.username+'","'+hash.body.email1+'","'+hash.body.password1+'","'+hash.body.sex+'","'+hash.body.date+'",CURDATE())', function(err, result) {
+  if (err) throw err;
+
+  console.log(hash.body);
+});
 }
 
 // Ajout via POST
-app.post('/profil', function(req, res) {
-    data.insertUser(req.body, dataCallback(res));
+app.post('/', function(req, res) {
+    //data.insertUser(req.body, dataCallback(res));
+    console.log(req.body.firstname);// test C to S
+    if(req.body.email1 == req.body.email2 && req.body.password1 == req.body.password2
+      && req.body.firstname != '' && req.body.lastname != '' && req.body.username != ''
+      && req.body.email1 != '' && req.body.password1 != '' && req.body.sex != '' && req.body.date != '')
+    {
+      insertUser(req);
+      res.render('signin', { title: 'SignIn. Social' });
+    }
+    else
+    {
+      res.render('signup', { title: 'SignUp. Social' });
+    }  
 });
+
 
 
 
