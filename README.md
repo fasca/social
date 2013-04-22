@@ -19,8 +19,15 @@ Run the server :
 ~~~sh
 node app
 ~~~
-
 The website will run at localhost:3000
+
+
+Change :
+~~~javascript
+const useLocalConfig = true;
+~~~
+To use a local Database.
+& Edit MySQL Server connection settings with sql/mysql-config-local.json and mysql-config.json
 
 
 DONE
@@ -29,6 +36,7 @@ DONE
 #### Database
 
 14/04 : Created a MySQL database on Raspberry Pi
+22/04 : We now have a Social API Folder.
 
 
 TO DO

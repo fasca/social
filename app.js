@@ -10,20 +10,40 @@ var express = require('express')
   , fs = require('node-fs');
 
 
+
+// Swith this var to True to use the local DB
+const useLocalConfig = true;
+
+
+
+
+
+
+
+
+
 // Social Project Libraries
-var socialLib = require("./social.io/socialLib.js");
+var socialLib = require("./socialAPI/socialLib.js");
+console.log(socialLib);
 
 // Express Server object
 var app = express();
 
 
+
 // MySQL Connection Initiliazation
-var config = JSON.parse(fs.readFileSync('./sql/mysql-config.json'));
+if(!useLocalConfig)
+  var config = JSON.parse(fs.readFileSync('./sql/mysql-config.json'));
+else
+  var config = JSON.parse(fs.readFileSync('./sql/mysql-config-local.json'));
+
+
+
 var client = new mysql.createConnection(config); 
 
 
 // Social Instance
-var social = new socialLib (client);
+var social = new socialLib(client);
 
 
 
@@ -117,22 +137,33 @@ http.createServer(app).listen(app.get('port'), function(){
 // Ajout via POST
 app.post('/ajax/createuser', function(req, res)
 {
-    
-    if( req.body.email1 == req.body.email2 && req.body.password1 == req.body.password2
-      && req.body.firstname != '' && req.body.lastname != '' && req.body.username != ''
-      && req.body.email1 != '' && req.body.password1 != '' && req.body.sex != '' && req.body.date != '')
+    // Check the form values (We'll use a function here)
+    if(social.checkUserFormValues(req.body))
     {
-      socialLib.users.insertUser(req);
-      // TODO : Admit that we could have error Here ! Handle ERRORS.
-      res.render('signin', { title: 'SignIn. Social' });
+      social.ifUserNameNotExists(req.body.username, function(err, result)
+        {
+          if (err) throw err;
+
+          if(result.length==0)
+            social.insertUser(req.body, function(err, result)
+            {
+              if (err) throw err;
+        
+              // This is the Callback function after inserting the user
+              console.log(result);
+
+              if(result.affectedRows==1)
+                res.end("Succesfully Created User.");
+              else
+                res.end("We have a problem Here.");
+            });
+          else
+            res.end("This username is not available.");
+        });
+
     }
     else
     {
-      res.render('signup', { title: 'SignUp. Social' });
-    }  
+      res.end("Wrong values.");
+    }
 });
-
-
-
-//fait buger
-//client.end();
