@@ -6,7 +6,8 @@ block content
       h1 Sign Up to Social. 
         small Free & Simple Social Network
     .lead In a few seconds, you'll be able to share with people.
-    form(action="/ajax/createuser", method="post", name="")
+
+    form#signUpForm
       .row
         .span6
         
@@ -84,19 +85,7 @@ block content
                   span.add-on
                     i.icon-calendar
                   input.span5#inputCalendar(type='date', name="date")
-        script
-          $(function()
-          {
-            $("#envoyer").click(function()
-            {
-              var mail=$('#inputEmail').val();
-              var mail2=$('#inputReEmail').val();
-              if(mail !== mail2)
-              {     
-                alert("les deux adresses mail ne sont pas identiques");
-              }
-            });
-          });
+
         script  
           $(function()
           {
@@ -108,25 +97,47 @@ block content
               {
                 alert("les deux password ne sont pas identiques");
               }
+              else
+              {
+                $.post("/ajax/createUser", $("#signUpForm").serialize()).done(function(data)
+                  {
+                    // Handle JSON data var 
+
+                    console.log(data);
+
+                    var result = JSON.parse(data);
+
+                    if(result.success)
+                      window.location.href = "/successaccountcreation?id="+result.insertId;
+
+
+                  });
+              }
+
+
+              return false;
             });
           });
+
         script
           $(function()
           {
             $("#reset").click(function()
             {
-              $(':input','#id-formulaire')
-              .not(':button, :submit, :reset, :hidden')
+              $(':input')
               .val('')
               .removeAttr('checked')
               .removeAttr('selected');
+
+              return false;
             });
+
           });
 
         .span6
-          button.btn.btn-large.btn-block.btn-success#envoyer(type='submit')
+          button.btn.btn-large.btn-block.btn-success#envoyer
             i.icon-ok-circle.icon-white  
             | &nbsp;Sign up
-          button.btn.btn-large.btn-block.btn-danger#reset(type='reset')
+          button.btn.btn-large.btn-block.btn-danger#reset
             i.icon-remove-circle.icon-white  
             | &nbsp;Reset

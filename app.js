@@ -9,26 +9,17 @@ var express = require('express')
   , mysql = require('mysql')
   , fs = require('node-fs');
 
-
-
 // Swith this var to True to use the local DB
 const useLocalConfig = true;
 
-
-
-
-
-
-
-
-
-// Social Project Libraries
-var socialLib = require("./socialAPI/socialLib.js");
-console.log(socialLib);
+// Ability to Require TypeScript Modules
+require("typescript-require");
 
 // Express Server object
 var app = express();
 
+// Social Project Libraries
+var socialLib = require("./socialAPI/socialLib.ts").socialLib;
 
 
 // MySQL Connection Initiliazation
@@ -38,9 +29,8 @@ else
   var config = JSON.parse(fs.readFileSync('./sql/mysql-config-local.json'));
 
 
-
+// MySQL Client
 var client = new mysql.createConnection(config); 
-
 
 // Social Instance
 var social = new socialLib(client);
@@ -49,7 +39,12 @@ var social = new socialLib(client);
 
 
 
-app.configure(function(){
+
+
+
+// Express Configuration
+app.configure(function()
+{
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -61,16 +56,23 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
+// Development Error Handler
+app.configure('development', function()
+{
   app.use(express.errorHandler());
 });
 
 
 
 
-// Url Redirections
-app.get('/', routes.index);
 
+
+
+
+
+// Url Redirections
+
+app.get('/', routes.index);
 
 /* You can add Url Redirections without including JS file, directly by specifying it in the callback */
 // SignUp Page
@@ -124,19 +126,30 @@ app.get('/editFriendsList', function(req, res)
     res.render('editFriendsList', {title: 'Edit friends list page.'});
   });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+
+// Successfully Created User
+app.get('/successaccountcreation', function(req, res)
+  {
+    res.render('successAccountCreation',
+      {
+        title: "Successfully Created your Account!",
+        firstName:"Test",
+        lastName: 'Test',
+        userName: "test",
+        email:"test@test.io"
+      });
+  });
 
 
 
 
 
-
-
+// AJAX INTERFACES
 // Ajout via POST
 app.post('/ajax/createuser', function(req, res)
 {
+    console.log(req);
+
     // Check the form values (We'll use a function here)
     if(social.checkUserFormValues(req.body))
     {
@@ -153,17 +166,31 @@ app.post('/ajax/createuser', function(req, res)
               console.log(result);
 
               if(result.affectedRows==1)
-                res.end("Succesfully Created User.");
+                res.end('{"success":1, "insertId":'+result.insertId+'}');
               else
-                res.end("We have a problem Here.");
+                res.end('{"success":0, "error":"USERNOTADDEDTODB"}');
             });
           else
-            res.end("This username is not available.");
+            res.end('{"success":0, "error":"USERNAMENOTAVAILABLE"}');
         });
 
     }
     else
     {
-      res.end("Wrong values.");
+      res.end("{\"success\":0, \"error\":\"WRONGVALUES\"}");
     }
+});
+
+
+
+
+
+
+
+
+// Make Server Listen Given Port
+// & Log it is Running
+http.createServer(app).listen(app.get('port'), function()
+{
+  console.log("Social is Running on port " + app.get('port'));
 });

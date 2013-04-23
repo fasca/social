@@ -5,6 +5,8 @@
 
 export class socialLib
 {
+	sql;
+
 	constructor(sql)
 	{
 		this.sql = sql;
@@ -42,4 +44,5 @@ export class socialLib
 	{
 	  this.sql.query('INSERT INTO users (id,firstName,lastName,userName,email,password,sex,birthDate,joinDate)VALUES (0,"'+userProperties.firstname+'","'+userProperties.lastname+'","'+userProperties.username+'","'+userProperties.email1+'","'+userProperties.password1+'","'+userProperties.sex+'","'+userProperties.date+'",CURDATE())', callback);
 	}
+
 }

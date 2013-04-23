@@ -14,7 +14,6 @@ exports.ifUsernameNotExists = function(hash, callback)
     console.log("*****************************");
     console.log(res);
     
-    return bool;
   });
 };
 
