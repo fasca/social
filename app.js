@@ -35,8 +35,6 @@ var client = new mysql.createConnection(config);
 
 // Social Instance
 var social = new socialLib(client);
-// Put SocialAPI on req object to be able to use it anywhere
-// req.social = social;
 
 
 
@@ -56,9 +54,21 @@ app.configure(function()
   app.use(express.methodOverride());
   app.use(express.cookieParser("secretThing"));
   app.use(express.cookieSession());
+
+  // Add SocialAPI to req to be able to use it anywhere
+  app.use(function(req, res, next)
+  {
+    req.social = social;
+    // Check Session
+    
+
+    next();
+  });
+
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
+
 
 // Development Error Handler
 app.configure('development', function()
@@ -73,24 +83,10 @@ app.configure('development', function()
 
 
 
-
 // Url Redirections
 
 
-app.get('/', function(req, res){
-
-  var sessionId = req.session.sessionId;
-
-  // THINK ABOUT THE WAY TO ACCESS SOCIAL API OBJECT THROUGH THE FILES (routes/index.js for example)
-  if (sessionId)
-    social.getUserInfo(sessionId, function(err, result)
-      {
-        res.render('index', { title: 'Social', userInfo: result });
-      });
-  else
-    res.render('index', { title: 'Social' });
-
-});
+app.get('/', routes.index);
 
 
 
@@ -149,53 +145,9 @@ app.get('/editFriendsList', function(req, res)
 
 
 
-
-// SESSIONS !
-// Open Session (FOR TESTS ONLY)
-app.get('/session/open', function(req, res)
-{
-    // Check if req.query.id is a number
-    if(req.query["id"]%1===0)
-    {
-      req.session["sessionId"] = req.query["id"];
-      console.log("Session Opened !");
-    }
-
-
-    res.redirect("/");
-});
-
-// Open Session
-app.post('/session/open', function(req, res)
-{
-    // ADD PASSWORD VERIFICATION & KEY SENT TO COOKIE !
-    // STORE COMPUTER IP AS LAST IP USED
-
-
-    social.checkUserLoginInfo(req.body, function(err, result)
-    {
-      if(err) throw err;
-
-      if(result[0] && result[0].id)
-      {
-        req.session["sessionId"] = result[0].id;
-        res.redirect("/");
-      }
-      else
-        res.redirect("/signin");
-    });
-});
-
-// Close Session
-app.get('/session/close', function(req, res)
-{
-    req.session=null;
-    console.log("Session Closed !");
-
-    res.redirect("/");
-});
-
-
+// SESSIONS
+app.post('/session/open', routes.sessions.open);
+app.get('/session/close', routes.sessions.close);
 
 
 // Successfully Created User
@@ -285,7 +237,7 @@ app.get('/ajax/getuserinfo', function(req, res)
 
     // Check if req.query.id is a number
     if(req.query["id"]%1===0)
-      social.getUserInfo(req.query["id"], function(err, result)
+      req.social.getUserInfo(req.query["id"], function(err, result)
         {
           res.end(JSON.stringify(result));
         });

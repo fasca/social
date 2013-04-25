@@ -1,8 +1,5 @@
 // SOCIAL LIBRARY
 
-// ! Change the 'var socialLib' in socialLib.js with 'module.exports' after compilation !
-
-
 export class socialLib
 {
     sql;
@@ -52,6 +49,8 @@ export class socialLib
         // Will Return a JSON
         // Elements will depend on the rights the Current Session User has to view on the User he wants to look at.
         var query = "SELECT * FROM users WHERE `id`=" + userId;
+
+        console.log(query);
 
         // CHECK USER SESSION
         // FILTER USERINFO DEPENDING ON USER SESSION RIGHTS

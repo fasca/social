@@ -5,14 +5,21 @@
 
 exports.index = function(req, res){
 
-	var sessionId = req.session.sessionId;
+  var sessionId = req.session.sessionId;
 
-	if (sessionId)
-		req.social.getUserInfo(sessionId, function(err, result)
-	        {
-			  	res.render('index', { title: 'Social', userInfo: result });
-	        });
-	else
-	  	res.render('index', { title: 'Social' });
+  console.log("iNDEX");
+  console.log(req.social);
 
-};
+  // THINK ABOUT THE WAY TO ACCESS SOCIAL API OBJECT THROUGH THE FILES (routes/index.js for example)
+  if (sessionId)
+    req.social.getUserInfo(sessionId, function(err, result)
+      {
+      	console.log("toutou");
+        res.render('index', { title: 'Social', userInfo: result });
+      });
+  else
+    res.render('index', { title: 'Social' });
+
+}
+
+exports.sessions = require('./sessions.js');
