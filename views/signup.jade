@@ -7,7 +7,7 @@ block content
         small Free & Simple Social Network
     .lead In a few seconds, you'll be able to share with people.
 
-    form#signUpForm
+    form#signUpForm(action="ajax/createuser", method="POST")
       .row
         .span6
         
@@ -102,15 +102,9 @@ block content
                 $.post("/ajax/createUser", $("#signUpForm").serialize()).done(function(data)
                   {
                     // Handle JSON data var 
-
-                    console.log(data);
-
                     var result = JSON.parse(data);
-
                     if(result.success)
                       window.location.href = "/successaccountcreation?id="+result.insertId;
-
-
                   });
               }
 

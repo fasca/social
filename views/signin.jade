@@ -5,10 +5,10 @@ block content
     .page-header
       h1 Sign In to Social.
 
-    form.form-signin
+    form.form-signin(action="/session/open", method="POST")
       h2.form-signin-heading Please identify yourself.
-      input.input-block-level(type="text", placeholder="Username")
-      input.input-block-level(type="password", placeholder="Password")
+      input.input-block-level(type="text", name="username", placeholder="Username")
+      input.input-block-level(type="password", name="password", placeholder="Password")
       .row
         .span9
           label.checkbox

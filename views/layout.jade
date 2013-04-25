@@ -19,8 +19,40 @@ html
           a.brand(href="/")
             i.icon-th.icon-white
             |  Social
-          ul.nav
-            li: a(href="signin") Sign In
+
+          - if (typeof(userInfo) === "undefined")
+            ul.nav
+              li: a(href="signin") Sign In
+          - else
+            ul.nav
+              li: a(href="profil")
+                i.icon-user.icon-white
+                | #{userInfo.lastName} #{userInfo.firstName}
+              li: a(href="news")
+                i.icon-globe.icon-white
+                | News
+              li: a(href="messages")
+                i.icon-comment.icon-white
+                | Messages
+              li: a(href="notifications")
+                i.icon-eye-open.icon-white
+                | Notifications
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+                  i.icon-cog.icon-white
+                  | Settings
+                  b.caret
+                ul.dropdown-menu
+                  li: a(href='settings')
+                    i.icon-wrench
+                    | Account Settings
+                  li.divider
+                  //-li.nav-header blabla
+                  li: a(href='/session/close')
+                    i.icon-off
+                    | Log out
+          form.navbar-search.pull-right
+            input.search-query(type="text", placeholder="Search")
 
           //-form.navbar-search.pull-right
             //-input.search-query(type="text", placeholder="Search")

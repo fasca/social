@@ -4,5 +4,15 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Social' });
+
+	var sessionId = req.session.sessionId;
+
+	if (sessionId)
+		req.social.getUserInfo(sessionId, function(err, result)
+	        {
+			  	res.render('index', { title: 'Social', userInfo: result });
+	        });
+	else
+	  	res.render('index', { title: 'Social' });
+
 };

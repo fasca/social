@@ -35,12 +35,18 @@ DONE
 
 #### Database
 
-14/04 : Created a MySQL database on Raspberry Pi
-22/04 : We now have a Social API Folder.
+- 14/04 : Created a MySQL database on Raspberry Pi
+- 22/04 : We now have a Social API Folder.
+- 23/04 : Set Up AJAX User Creation Form.
+- 24/04 : Set Up a Basic Session Manager.
 
 
 TO DO
 -----
+
+- SignIn Form is not Case-Sensitive
+- Password Encryption (MD5)
+
 
 #### Database
 

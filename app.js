@@ -7,7 +7,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , mysql = require('mysql')
-  , fs = require('node-fs');
+  , fs = require('node-fs');// TODO : Make REQUIRE Adress more simple
+
 
 // Swith this var to True to use the local DB
 const useLocalConfig = true;
@@ -34,7 +35,8 @@ var client = new mysql.createConnection(config);
 
 // Social Instance
 var social = new socialLib(client);
-
+// Put SocialAPI on req object to be able to use it anywhere
+// req.social = social;
 
 
 
@@ -52,6 +54,8 @@ app.configure(function()
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.cookieParser("secretThing"));
+  app.use(express.cookieSession());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -72,7 +76,24 @@ app.configure('development', function()
 
 // Url Redirections
 
-app.get('/', routes.index);
+
+app.get('/', function(req, res){
+
+  var sessionId = req.session.sessionId;
+
+  // THINK ABOUT THE WAY TO ACCESS SOCIAL API OBJECT THROUGH THE FILES (routes/index.js for example)
+  if (sessionId)
+    social.getUserInfo(sessionId, function(err, result)
+      {
+        res.render('index', { title: 'Social', userInfo: result });
+      });
+  else
+    res.render('index', { title: 'Social' });
+
+});
+
+
+
 
 /* You can add Url Redirections without including JS file, directly by specifying it in the callback */
 // SignUp Page
@@ -127,17 +148,82 @@ app.get('/editFriendsList', function(req, res)
   });
 
 
+
+
+// SESSIONS !
+// Open Session (FOR TESTS ONLY)
+app.get('/session/open', function(req, res)
+{
+    // Check if req.query.id is a number
+    if(req.query["id"]%1===0)
+    {
+      req.session["sessionId"] = req.query["id"];
+      console.log("Session Opened !");
+    }
+
+
+    res.redirect("/");
+});
+
+// Open Session
+app.post('/session/open', function(req, res)
+{
+    // ADD PASSWORD VERIFICATION & KEY SENT TO COOKIE !
+    // STORE COMPUTER IP AS LAST IP USED
+
+
+    social.checkUserLoginInfo(req.body, function(err, result)
+    {
+      if(err) throw err;
+
+      if(result[0] && result[0].id)
+      {
+        req.session["sessionId"] = result[0].id;
+        res.redirect("/");
+      }
+      else
+        res.redirect("/signin");
+    });
+});
+
+// Close Session
+app.get('/session/close', function(req, res)
+{
+    req.session=null;
+    console.log("Session Closed !");
+
+    res.redirect("/");
+});
+
+
+
+
 // Successfully Created User
 app.get('/successaccountcreation', function(req, res)
   {
-    res.render('successAccountCreation',
-      {
-        title: "Successfully Created your Account!",
-        firstName:"Test",
-        lastName: 'Test',
-        userName: "test",
-        email:"test@test.io"
-      });
+   
+    // TODO : ADD VERIFICATION. THIS PAGE CAN BE VIEWED ONLY IF USER DID NOT ALREADY ACTIVATED ITS PAGE, and VERIFY WITH A TIMESTAMP
+    // ELSE REDIRECT TO INDEX
+
+    // CHECK IF JOIN DATE IS LESS THAN 2 HOURS.
+    // IP HAS TO BE THE SAME AS THE SUBSCRIPTION IP
+
+    social.getUserInfo(req.query["id"], function(err, result)
+    {
+      var info = result;
+      res.render('successAccountCreation',
+        {
+          title: "Successfully Created your Account!",
+          firstName: info.firstName,
+          lastName: info.lastName,
+          userName: info.userName,
+          email: info.email
+        });
+
+    });
+
+
+      
   });
 
 
@@ -148,7 +234,10 @@ app.get('/successaccountcreation', function(req, res)
 // Ajout via POST
 app.post('/ajax/createuser', function(req, res)
 {
-    console.log(req);
+    // If trying to create a User not using AJAX
+    // Redirect to SignUp form
+    if(!req.xhr)
+      res.redirect("/signup");
 
     // Check the form values (We'll use a function here)
     if(social.checkUserFormValues(req.body))
@@ -166,7 +255,12 @@ app.post('/ajax/createuser', function(req, res)
               console.log(result);
 
               if(result.affectedRows==1)
-                res.end('{"success":1, "insertId":'+result.insertId+'}');
+                res.end(JSON.stringify(
+                  {
+                    success : 1,
+                    insertId : result.insertId
+                  }
+                ));
               else
                 res.end('{"success":0, "error":"USERNOTADDEDTODB"}');
             });
@@ -182,7 +276,26 @@ app.post('/ajax/createuser', function(req, res)
 });
 
 
+// Récupérer la liste JSON
+app.get('/ajax/getuserinfo', function(req, res)
+{
+    // If request is not from AJAX, redirect to index 
+    if(!req.xhr)
+      res.redirect("/");
 
+    // Check if req.query.id is a number
+    if(req.query["id"]%1===0)
+      social.getUserInfo(req.query["id"], function(err, result)
+        {
+          res.end(JSON.stringify(result));
+        });
+    else
+    {
+      res.end("0");
+    }
+
+
+});
 
 
 
