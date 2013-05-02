@@ -20,7 +20,6 @@ export class session
 	userId;
 	sessionId;
 
-
 	// Session Properties
 	lastTimestamp;
 	firstTimestamp;

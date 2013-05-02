@@ -3,6 +3,5 @@
   "password" : "root",
   "database" : "social",
   "host" : "localhost",
-  "database" : "social",
   "port" : 8889
 }
