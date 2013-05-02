@@ -1,13 +1,25 @@
 // SOCIAL LIBRARY
 
+
+var usersArray = require('./usersArray.ts').usersArray;
+
+
 export class socialLib
 {
     sql;
+    usersArray;
 
     constructor(sql)
     {
         this.sql = sql;
         sql.connect();
+
+
+
+        // SocialLib contains one user Array
+            // User Array contains userInfo & Users Sessions
+
+
     }
 
 

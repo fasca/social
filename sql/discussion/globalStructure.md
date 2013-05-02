@@ -16,17 +16,20 @@ User & Profile
 - JoinDate
 
 
-#### UsersIP
+#### UsersSessions
 - Id
 - Ip
 - User
-
+- FirstTimestamp
+- LastTimestamp
+- PassKey
 
 #### WallMessages
 - Id
 - From (Link to Users.Id)
 - To (Link to Users.Id)
 - DateTime
+
 - Ip
 - MessageContent
 

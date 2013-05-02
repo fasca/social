@@ -14,7 +14,7 @@ var express = require('express')
 const useLocalConfig = true;
 
 // Ability to Require TypeScript Modules
-require("typescript-require");
+require("typescript-require")({nodeLib:true});
 
 // Express Server object
 var app = express();
@@ -60,7 +60,16 @@ app.configure(function()
   {
     req.social = social;
     // Check Session
-    
+
+
+    // Put a currentUser Object somewhere to handle it with Jade.
+      
+    req.social.usersSessions;
+
+    req.session.sessionId;
+
+
+
 
     next();
   });
@@ -95,52 +104,52 @@ app.get('/', routes.index);
 // SignUp Page
 app.get('/signup', function(req, res)
   {
-    res.render('signup', { title: 'SignUp. Social' });
+    res.render('signup', { title: 'SignUp. Social', social: req.social });
   });
 // Sign In Page
 app.get('/signin', function(req, res)
   {
-    res.render('signin', { title: 'SignIn. Social' });
+    res.render('signin', { title: 'SignIn. Social', social: req.social });
   });
 // Forgot password Page
 app.get('/forgotPwd', function(req, res)
   {
-    res.render('forgotPwd', { title: 'Forgot your Password?'});
+    res.render('forgotPwd', { title: 'Forgot your Password?', social: req.social});
   });
 // Profil Page
 app.get('/profil', function(req, res)
   {
-    res.render('profil', {title: 'My Profil.'});
+    res.render('profil', {title: 'My Profil.', social: req.social});
   });
 // News Page
 app.get('/news', function(req, res)
   {
-    res.render('news', {title: 'The News.'});
+    res.render('news', {title: 'The News.', social: req.social});
   });
 // Messages Page
 app.get('/messages', function(req, res)
   {
-    res.render('messages', {title: 'My Messages.'});
+    res.render('messages', {title: 'My Messages.', social: req.social});
   });
 // Notifications Page
 app.get('/notifications', function(req, res)
   {
-    res.render('notifications', {title: 'My Notifications.'});
+    res.render('notifications', {title: 'My Notifications.', social: req.social});
   });
 // Settings Page
 app.get('/settings', function(req, res)
   {
-    res.render('settings', {title: 'Account Settings.'});
+    res.render('settings', {title: 'Account Settings.', social: req.social});
   });
 // Delete Page
 app.get('/delete', function(req, res)
   {
-    res.render('delete', {title: 'Delete page.'});
+    res.render('delete', {title: 'Delete page.', social: req.social});
   });
 // Edit friends list Page
 app.get('/editFriendsList', function(req, res)
   {
-    res.render('editFriendsList', {title: 'Edit friends list page.'});
+    res.render('editFriendsList', {title: 'Edit friends list page.', social: req.social});
   });
 
 
@@ -166,10 +175,15 @@ app.get('/successaccountcreation', function(req, res)
       res.render('successAccountCreation',
         {
           title: "Successfully Created your Account!",
+
+          // Simplify all these vars to one object
           firstName: info.firstName,
           lastName: info.lastName,
           userName: info.userName,
-          email: info.email
+          email: info.email,
+
+          
+          social: req.social
         });
 
     });
