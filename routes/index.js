@@ -9,7 +9,7 @@ exports.index = function(req, res){
 
   // THINK ABOUT THE WAY TO ACCESS SOCIAL API OBJECT THROUGH THE FILES (routes/index.js for example)
   if (sessionId)
-    res.req.social.getUserInfo(sessionId, function(err, result)
+    req.social.getUserInfo(sessionId, function(err, result)
       {
         res.render('index', { title: 'Social', userInfo: result });
       });

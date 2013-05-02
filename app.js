@@ -1,6 +1,7 @@
-/**
- * Module dependencies.
- */
+const useLocalConfig = true;
+
+// Ability to Require TypeScript Modules
+require("typescript-require")({nodeLib:true});
 
 var express = require('express')
   , routes = require('./routes')
@@ -10,11 +11,6 @@ var express = require('express')
   , fs = require('node-fs');// TODO : Make REQUIRE Adress more simple
 
 
-// Swith this var to True to use the local DB
-const useLocalConfig = true;
-
-// Ability to Require TypeScript Modules
-require("typescript-require")({nodeLib:true});
 
 // Express Server object
 var app = express();
@@ -52,6 +48,7 @@ app.configure(function()
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+
   app.use(express.cookieParser("secretThing"));
   app.use(express.cookieSession());
 
@@ -84,7 +81,6 @@ app.configure('development', function()
 {
   app.use(express.errorHandler());
 });
-
 
 
 
