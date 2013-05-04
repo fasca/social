@@ -13,7 +13,8 @@ exports.open = function(req, res)
       if(result[0] && result[0].id)
       {
         req.session["sessionId"] = result[0].id;
-        res.redirect("/");
+        res.redirect("/layout");
+
       }
       else
         res.redirect("/signin");

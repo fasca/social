@@ -1,4 +1,4 @@
-//- layout: it's the header for users without connection
+
 doctype 5
 html
   head
@@ -16,10 +16,14 @@ html
     .container
       .navbar.navbar-inverse
         .navbar-inner
-          a.brand(href="/")
-            i.icon-th.icon-white
-            |  Social
-
+          - if (typeof(req.social.users[req.session.sessionId]) === "undefined")  
+            a.brand(href="/")
+              i.icon-th.icon-white
+              |  Social
+          - else
+            a.brand(href="profil")
+              i.icon-th.icon-white
+              |  Social
           - if (typeof(req.social.users[req.session.sessionId]) === "undefined")
             ul.nav
               li: a(href="signin") Sign In
@@ -52,8 +56,8 @@ html
                   li: a(href='/session/close')
                     i.icon-off
                     | Log out
-          form.navbar-search.pull-right
-            input.search-query(type="text", placeholder="Search")
+            form.navbar-search.pull-right
+              input.search-query(type="text", placeholder="Search")
 
           //-form.navbar-search.pull-right
             //-input.search-query(type="text", placeholder="Search")
