@@ -1,4 +1,4 @@
-// SOCIAL SESSION MANAGER
+// SOCIAL SESSION
 
 // A LOT OF WORK TO DO HERE
 
@@ -6,24 +6,21 @@
 
 export class session
 {
-	// Max Time for a user Session in ms
+	sessionId;
 
-	computerIP;
-//	computerBrowser;
-//	computerOS;
+	// Session Properties
+	userId;
+	IP;
+	loginTimestamp;
+	lastTimestamp;
+	passKey;
+	userAgent;
 	
 	// Function object to Close Session if no activity during a arbitrary time
 	timeOutSession;
 
 
-	// User
-	userId;
-	sessionId;
 
-	// Session Properties
-	lastTimestamp;
-	firstTimestamp;
-	passKey;
 
 
 	constructor (req, res)
@@ -33,24 +30,39 @@ export class session
 
 
 		// ONLY AT INITIALIZATION OF SESSION
-        req.session["firstTimestamp"] = new Date().getTime();
+		this.loginTimestamp = new Date().getTime();
+        req.session["loginTimestamp"] = this.loginTimestamp;
+
+
+        this.IP = req.ip;
+		this.passKey = Math.random();
+        req.session["IP"] = req.ip;
+
+
 
 		this.refresh(req, res);
+
+
+
+
+
+
 	}
 
 
 	refresh (req, res)
 	{
-
-		// TO be sure that 15 minutes elapsed.
+		var self = this;
 
 
 		// Change the KEY in Cookie & in Session Manager ?
 		// RAND()
-		Math.random();
 
 
 		console.log("NOW CLEAR THIS SESSION ");
+		
+
+
 
 		req.session["userId"];
 
@@ -60,7 +72,6 @@ export class session
 		
 		req.session["passKey"] = Math.random();
 
-        req.session["computerIp"] = req.ip;
 
         req.session["lastTimestamp"] = new Date().getTime();
 
@@ -71,7 +82,6 @@ export class session
 		clearTimeout(this.timeOutSession);
 
 
-		var self = this;
 
 		this.timeOutSession = setTimeout(function()
 			{
@@ -94,8 +104,18 @@ export class session
 	}
 
 
+
+
 	close (req, res)
 	{
+
+		// Remove this Session from User.sessions Array
+
+
+		// Remove Session from Array
+
+
+		// WHAT ELSE TO DO ?
 
 	}
 

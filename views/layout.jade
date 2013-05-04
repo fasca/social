@@ -20,10 +20,11 @@ html
             i.icon-th.icon-white
             |  Social
 
-          - if (typeof(userInfo) === "undefined")
+          - if (typeof(req.social.users[req.session.sessionId]) === "undefined")
             ul.nav
               li: a(href="signin") Sign In
           - else
+            - var userInfo = req.social.users[req.session.sessionId]
             ul.nav
               li: a(href="profil")
                 i.icon-user.icon-white

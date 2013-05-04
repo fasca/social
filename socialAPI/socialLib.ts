@@ -1,25 +1,39 @@
 // SOCIAL LIBRARY
 
-
-var usersArray = require('./usersArray.ts').usersArray;
-
+var user = require('./user.ts').user;
+var session = require('./session.ts').session;
 
 export class socialLib
 {
     sql;
-    usersArray;
+
+    // Users Array
+    users;
+
+    // Sessions Array
+    sessions;
 
     constructor(sql)
     {
         this.sql = sql;
         sql.connect();
 
+        this.users = new Array();
+        this.sessions = new Array();
+    }
 
 
-        // SocialLib contains one user Array
-            // User Array contains userInfo & Users Sessions
+    loadUser (req, userInfo)
+    {
+        this.users[userInfo.id] = new user(req, userInfo);
+    }
 
 
+
+    // Check the session Integrity from User Session Cookies
+    checkSessionIntegrity(session, callback)
+    {
+                
     }
 
 

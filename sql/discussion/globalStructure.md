@@ -16,13 +16,13 @@ User & Profile
 - JoinDate
 
 
-#### UsersSessions
+#### Sessions
 - Id
-- Ip
-- User
-- FirstTimestamp
-- LastTimestamp
+- UserId
+- IP
 - PassKey
+- FirstTimestamp
+- LoginTimestamp
 
 #### WallMessages
 - Id

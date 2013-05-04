@@ -56,19 +56,80 @@ app.configure(function()
   app.use(function(req, res, next)
   {
     req.social = social;
+
+
+    console.log(social.users[req.session.sessionId]);
+
+    // console.log(req.headers['user-agent']);
+
+
+
+
+
+    // BE CAREFUL THIS IS'NT SECURED !
+    // CHANGE SESSION ID WITH USER ID !!!!
+    if(req.session.sessionId)
+      if(!social.users[req.session.sessionId])
+        // Load User into Social Users Array
+        social.getUserInfo(req.session.sessionId, function(err, result)
+        {
+          social.loadUser(req, result);
+        });
+
+
+
+
+
     // Check Session
+    if (req.session.sessionId)
+    {
+
+      // Check if session is stored in Nodejs Server :
+      if (social.sessions[req.session.sessionId])
+      {
+        var isCorrectSession=true;
+        serverSession = social.sessions[req.session.sessionId];
+
+        // Check passKey 
+        if (serverSession.passKey!=req.session.passKey)
+          isCorrectSession=false;
+
+        // Check userId (user is a link to social.users[userId])
+        if (serverSession.user.userId!=req.session.userId)
+          isCorrectSession=false;
+
+        // Check timestamp
+        if (serverSession.lastTimestamp != req.session.lastTimestamp)
+          isCorrectSession=false;
+
+        // Check IP
+        if (serverSession.IP != req.ip)
+          isCorrectSession=false;
+
+        // Check User Agent
+        if (serverSession.userAgent != req.headers['user-agent'])
+          isCorrectSession=false;
 
 
-    // Put a currentUser Object somewhere to handle it with Jade.
-      
-    req.social.usersSessions;
+        if(isCorrectSession)
+          // Current Session is a link to social.sessions[sessionId]
+          req.currentSession = social.sessions[sessionId];
+      }
+      else
+      {
+        // Session isn't stored in Nodejs Server :
+        // Search in MySQL DB
 
-    req.session.sessionId;
+      }
 
 
 
+
+    }      
 
     next();
+
+
   });
 
   app.use(app.router);
@@ -100,52 +161,52 @@ app.get('/', routes.index);
 // SignUp Page
 app.get('/signup', function(req, res)
   {
-    res.render('signup', { title: 'SignUp. Social', social: req.social });
+    res.render('signup', { title: 'SignUp. Social', social: req.social, req: req });
   });
 // Sign In Page
 app.get('/signin', function(req, res)
   {
-    res.render('signin', { title: 'SignIn. Social', social: req.social });
+    res.render('signin', { title: 'SignIn. Social', social: req.social, req: req });
   });
 // Forgot password Page
 app.get('/forgotPwd', function(req, res)
   {
-    res.render('forgotPwd', { title: 'Forgot your Password?', social: req.social});
+    res.render('forgotPwd', { title: 'Forgot your Password?', social: req.social, req: req});
   });
 // Profil Page
 app.get('/profil', function(req, res)
   {
-    res.render('profil', {title: 'My Profil.', social: req.social});
+    res.render('profil', {title: 'My Profil.', social: req.social, req: req});
   });
 // News Page
 app.get('/news', function(req, res)
   {
-    res.render('news', {title: 'The News.', social: req.social});
+    res.render('news', {title: 'The News.', social: req.social, req: req});
   });
 // Messages Page
 app.get('/messages', function(req, res)
   {
-    res.render('messages', {title: 'My Messages.', social: req.social});
+    res.render('messages', {title: 'My Messages.', social: req.social, req: req});
   });
 // Notifications Page
 app.get('/notifications', function(req, res)
   {
-    res.render('notifications', {title: 'My Notifications.', social: req.social});
+    res.render('notifications', {title: 'My Notifications.', social: req.social, req: req});
   });
 // Settings Page
 app.get('/settings', function(req, res)
   {
-    res.render('settings', {title: 'Account Settings.', social: req.social});
+    res.render('settings', {title: 'Account Settings.', social: req.social, req: req});
   });
 // Delete Page
 app.get('/delete', function(req, res)
   {
-    res.render('delete', {title: 'Delete page.', social: req.social});
+    res.render('delete', {title: 'Delete page.', social: req.social, req: req});
   });
 // Edit friends list Page
 app.get('/editFriendsList', function(req, res)
   {
-    res.render('editFriendsList', {title: 'Edit friends list page.', social: req.social});
+    res.render('editFriendsList', {title: 'Edit friends list page.', social: req.social, req: req});
   });
 
 
@@ -179,7 +240,8 @@ app.get('/successaccountcreation', function(req, res)
           email: info.email,
 
           
-          social: req.social
+          social: req.social,
+          req: req
         });
 
     });
