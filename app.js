@@ -210,10 +210,6 @@ app.get('/editFriendsList', function(req, res)
   });
 
 
-app.get('/layout', function(req, res)
-  {
-    res.redirect("/profil");
-  });
 
 
 

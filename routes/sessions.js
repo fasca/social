@@ -13,7 +13,14 @@ exports.open = function(req, res)
       if(result[0] && result[0].id)
       {
         req.session["sessionId"] = result[0].id;
-        res.redirect("/layout");
+
+        // Use a Header Redirection to be able to use the Session Cookie just set
+        res.writeHead(302,
+        {
+          'Location': '/profil'
+          //add other headers here...
+        });
+        res.end();
 
       }
       else

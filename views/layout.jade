@@ -20,15 +20,13 @@ html
             a.brand(href="/")
               i.icon-th.icon-white
               |  Social
-          - else
-            a.brand(href="profil")
-              i.icon-th.icon-white
-              |  Social
-          - if (typeof(req.social.users[req.session.sessionId]) === "undefined")
             ul.nav
               li: a(href="signin") Sign In
           - else
             - var userInfo = req.social.users[req.session.sessionId]
+            //- a.brand(href="profil")
+            //-   i.icon-th.icon-white
+            //-   |  Social
             ul.nav
               li: a(href="profil")
                 i.icon-user.icon-white

@@ -1,7 +1,7 @@
 {
   "user": "root",
-  "password" : "root",
+  "password" : "khrome2k3.",
   "database" : "social",
   "host" : "localhost",
-  "port" : 8889
+  "port" : 3306
 }
