@@ -3,12 +3,24 @@ const useLocalConfig = true;
 // Ability to Require TypeScript Modules
 require("typescript-require")({nodeLib:true});
 
+
+
+
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
   , mysql = require('mysql')
-  , fs = require('node-fs');// TODO : Make REQUIRE Adress more simple
+  , fs = require('node-fs') // TODO : Make REQUIRE Adress more simple
+  , crypto = require('crypto')
+  , uniqid = require('./socialAPI/uniqid.js').uniqid
+  , mt_rand = require('./socialAPI/mt_rand.ts').mt_rand;
+
+
+
+
+
+
 
 
 
@@ -37,7 +49,6 @@ var social = new socialLib(client);
 
 
 
-
 // Express Configuration
 app.configure(function()
 {
@@ -49,57 +60,87 @@ app.configure(function()
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 
-  app.use(express.cookieParser("secretThing"));
+  app.use(express.cookieParser("26ec79f5711df368ed1ab759838d3d12056a307cce6eb54deace0831268d893ee2b38f8d7e8d09127d968e827cf1f0aa77eb68f8b770c7572da1485a5c2338e13b769c52607f2e3c4a66f2c7edd91429"));
   app.use(express.cookieSession());
 
-  // Add SocialAPI to req to be able to use it anywhere
+
   app.use(function(req, res, next)
   {
+    // Add SocialAPI to req to be able to use it anywhere
     req.social = social;
 
 
-    console.log(social.users[req.session.sessionId]);
+    // Choose where is the Session Cookie (Session Cookie or Simple Signed Cookie ?)
+    if(req.session.sessionId)
+    {
+      console.log("Session Cookie !");
+      req.sessionCookie = req.session;
+    }
+    else if(req.cookies.sessionId)
+    {
+      console.log("Signed Cookie !");
+      req.sessionCookie = req.cookies;
+    }
+    else
+    {
+      req.sessionCookie = null;
+    }
+
+
+    console.log(req.sessionCookie);
+
+
+
+    // console.log(social.users[req.session.sessionId]);
 
     // console.log(req.headers['user-agent']);
 
 
+    // Generate a UniqId + Random + Sha1 Pass key
+    var shasum = crypto.createHash('sha1');
+    shasum.update(uniqid(mt_rand(), true));
+    console.log(shasum.digest('hex'));
 
 
 
     // BE CAREFUL THIS IS'NT SECURED !
     // CHANGE SESSION ID WITH USER ID !!!!
-    if(req.session.sessionId)
-      if(!social.users[req.session.sessionId])
-        // Load User into Social Users Array
-        social.getUserInfo(req.session.sessionId, function(err, result)
-        {
-          social.loadUser(req, result);
-        });
+    if(req.sessionCookie && req.sessionCookie.sessionId && !social.users[req.sessionCookie.sessionId])
+      // Load User into Social Users Array
+      social.getUserInfo(req.sessionCookie.sessionId, function(err, result)
+      {
+        social.loadUser(req, result);
+        next();
+      });
+    else
+      next();
+  });
 
 
-
-
+  app.use(function(req, res, next)
+  {
 
     // Check Session
-    if (req.session.sessionId)
+    if (req.sessionCookie && req.sessionCookie.sessionId)
     {
+      console.log("this ok !");
 
       // Check if session is stored in Nodejs Server :
-      if (social.sessions[req.session.sessionId])
+      if (social.sessions[req.sessionCookie.sessionId])
       {
         var isCorrectSession=true;
-        serverSession = social.sessions[req.session.sessionId];
+        serverSession = social.sessions[req.sessionCookie.sessionId];
 
         // Check passKey 
-        if (serverSession.passKey!=req.session.passKey)
+        if (serverSession.passKey!=req.sessionCookie.passKey)
           isCorrectSession=false;
 
         // Check userId (user is a link to social.users[userId])
-        if (serverSession.user.userId!=req.session.userId)
+        if (serverSession.user.userId!=req.sessionCookie.userId)
           isCorrectSession=false;
 
         // Check timestamp
-        if (serverSession.lastTimestamp != req.session.lastTimestamp)
+        if (serverSession.lastTimestamp != req.sessionCookie.lastTimestamp)
           isCorrectSession=false;
 
         // Check IP

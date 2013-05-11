@@ -16,17 +16,17 @@ html
     .container
       .navbar.navbar-inverse
         .navbar-inner
-          - if (typeof(req.social.users[req.session.sessionId]) === "undefined")  
+          - if (!req.sessionCookie || typeof(req.social.users[req.sessionCookie.sessionId]) === "undefined")  
             a.brand(href="/")
               i.icon-th.icon-white
               |  Social
             ul.nav
               li: a(href="signin") Sign In
           - else
-            - var userInfo = req.social.users[req.session.sessionId]
-            //- a.brand(href="profil")
-            //-   i.icon-th.icon-white
-            //-   |  Social
+            - var userInfo = req.social.users[req.sessionCookie.sessionId]
+            a.brand(href="profil")
+              i.icon-th.icon-white
+              |  Social
             ul.nav
               li: a(href="profil")
                 i.icon-user.icon-white
